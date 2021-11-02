@@ -1,0 +1,43 @@
+---
+kind: pipeline
+type: docker
+name: 20H2 Image
+
+platform:
+  os: windows
+  arch: arm64
+  version: 20H2
+
+steps:
+  - name: imagebuild
+    image: plugins/docker
+    environment:
+      WINVER: 20H2
+    settings:
+      repo: svil/fluentd-elastic-windows
+      username:
+        from_secret: dockerhub_username
+      password:
+        from_secret: dockerhub_password
+      tags: latest-20H2-amd64
+      build_args_from_env:
+        - WINVER
+---
+kind: pipeline
+type: docker
+name: push manifest
+
+steps:
+  - name: manifest
+    image: plugins/manifest
+    settings:
+      username:
+        from_secret: dockerhub_username
+      password:
+        from_secret: dockerhub_password
+      target: svil/fluentd-elastic-windows:latest
+      template: svil/fluentd-elastic-windows:latest-OS-ARCH
+      platforms:
+        - 20H2/amd64
+depends_on:
+  - 20H2 Image
