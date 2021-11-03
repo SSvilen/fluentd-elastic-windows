@@ -6,7 +6,7 @@ name: 20H2 Image
 platform:
   os: windows
   arch: arm64
-  version: 20H2
+  version: 1903
 
 steps:
   - name: imagebuild
