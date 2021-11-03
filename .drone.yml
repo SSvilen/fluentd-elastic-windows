@@ -5,7 +5,7 @@ name: 20H2 Image
 
 platform:
   os: windows
-  version: 1903
+  version: 1909
 
 steps:
   - name: imagebuild
